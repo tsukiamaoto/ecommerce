@@ -61,7 +61,7 @@ const Appbar = props => {
       case 'searchProduct':
         return {...state,
             products: state.products.filter(
-              ({ name, image, seller, price, review }) =>  name === action.searchString)};
+              ({ name, image, seller, price, review }) =>  name === action.searchString || seller === action.searchString)};
       default:
         return state;
     }
