@@ -60,6 +60,7 @@ const Home = props => {
     { value:'reviewHightToLow', label:'評價:高到低' },
     { value:'priceLowToHigh', label:'價格:低到高' },
     { value:'priceHighToLow', label:'價格:高到低' }]
+    
 
   const handleSortChanged = event => {
     setSort( event.target.value)
@@ -71,11 +72,11 @@ const Home = props => {
 
   return (
     <div className={classes.root}>
-      <Appbar/>
+      <Appbar products={products}/>
       <Box display='flex' flexDirection='column'>
         <Box height={contentTop}/>
         <Box display='flex' flexDirection>
-          <Filter />
+          <Filter products={products}/>
           <Box display='flex' mx={3} flexDirection='column' width='80%'>
             <Paper>
               <Box display='flex' className={classes.sort} alignItems='center'>
@@ -107,7 +108,7 @@ const Home = props => {
             </Paper>
             <Box display='flex'>
               <Grid className={classes.productList} container >
-                { products.map((product,index) => (
+                { products.map((product) => (
                   <Grid display='flex' flexDirection>
                     <Box display='flex' mt={4} mr={4}>
                       <Product product={product}/>

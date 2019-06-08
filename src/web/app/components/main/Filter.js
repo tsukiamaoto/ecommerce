@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState , useReducer } from 'react'
 import { makeStyles } from '@material-ui/styles'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
@@ -48,6 +48,16 @@ const Filter = props => {
   const [maxPrice, setMaxPrice] = useState(0)
   const handleMinPriceChanged = event => { setMinPrice(event.target.value) }
   const handkeMaxPriceChanged = event => { setMaxPrice(event.target.value) }
+  
+  const [products , dispatch] = useReducer((state, action) => {
+    switch(action.type){
+      case 'priceFilter':
+        return {products: state.products.filter(({ name, image, seller, price, review }) =>  
+          price >= minPrice && price <= maxPrice) };
+      default:
+        return state;
+    }
+  }, props)
 
   return(
     <div>
@@ -85,7 +95,7 @@ const Filter = props => {
                 onChange={handkeMaxPriceChanged}
               />
             </Box>
-            <Button className={classes.confirm}>
+            <Button className={classes.confirm} onClick={() => {dispatch({type: 'priceFilter'})}}>
               立即查詢
             </Button>
           </Box>

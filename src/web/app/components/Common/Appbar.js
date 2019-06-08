@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useReducer } from 'react'
 import { Link } from 'react-router-dom'
 import { makeStyles } from '@material-ui/styles'
 import Button from '@material-ui/core/Button'
@@ -56,12 +56,19 @@ const Appbar = props => {
   const [anchorEl, setAnchorEl] = useState(0)
   const [search, setSearch] = useState('')
   const open = Boolean(anchorEl)
+  const [products, dispatch] = useReducer((state, action) => {
+    switch(action.type){
+      case 'searchProduct':
+        return {...state,
+            products: state.products.filter(
+              ({ name, image, seller, price, review }) =>  name === action.searchString)};
+      default:
+        return state;
+    }
+  }, props)
 
   const handleSearchChanged = event => {
     setSearch(event.target.value)
-  }
-  const makeSearchRequest = (value) => {
-
   }
   const handleClick = event => {
     setAnchorEl(event.currentTarget)
@@ -83,7 +90,8 @@ const Appbar = props => {
         <Box display='flex' flexGrow={1} mx={2} m={1}>
           <Paper className={classes.search}>
             <InputBase className={classes.input} placeholder='Search...' onChange={handleSearchChanged}/>
-            <IconButton className={classes.iconSearch} onClick={makeSearchRequest(search)}>
+            <IconButton className={classes.iconSearch} 
+              onClick={() => dispatch({type: 'searchProduct', searchString: search})}>
               <FiSearch icon='search' />
             </IconButton>
           </Paper>
