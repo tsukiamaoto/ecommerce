@@ -8,10 +8,6 @@ import Typography from '@material-ui/core/Typography'
 import InputBase from '@material-ui/core/InputBase'
 import Appbar from '../Common/Appbar'
 import Link from '@material-ui/core/Link'
-// import {
-//   MuiPickersUtilsProvider,
-//   KeyboardDatePicker,
-// } from '@material-ui/pickers'
 // import useRegisApi from '../../hooks/useRegisApi'
 
 const contentTop = '15vh'

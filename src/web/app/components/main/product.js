@@ -37,7 +37,6 @@ const Product = props => {
   const classes = useStyles()
   const { product } = props
   const { name, image, seller, price, review } = product
-  console.log(image)
   return (
     <div>
       <Card className={classes.card} raised>
