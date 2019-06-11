@@ -8,7 +8,7 @@ import Paper from '@material-ui/core/Paper'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import Link from '@material-ui/core/Link'
-// import useLoginApi from '../../hooks/useLoginApi'
+import useLoginApi from '../../hooks/useLogin'
 
 const contentTop = 150;
 const useStyles = makeStyles(theme => ({
@@ -62,7 +62,7 @@ const Login = props =>{
 
   const handleAccountChange = event => { setAccount(event.target.value) }
   const handlePasswordChange = event => { setPassword(event.target.value) }
-  // const [{staus, response}, makeRequest] = useLoginApi({ account, password })
+  const [{staus, response}, makeRequest] = useLoginApi({ account, password })
 
   return (
     <div className={classes.root}>
@@ -110,7 +110,7 @@ const Login = props =>{
         </Box>
         <Box display="flex" justifyContent="center" mt={3}  width={1}>
           <Box display="flex" mx>
-            <Button variant="contained" className={classes.login} style={{color: 'white', background: '#4fc3f7'}}>登入</Button>
+            <Button variant="contained" className={classes.login} style={{color: 'white', background: '#4fc3f7'}} onClick={makeRequest}>登入</Button>
           </Box>
         </Box>
       </Paper>
