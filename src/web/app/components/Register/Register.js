@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography'
 import InputBase from '@material-ui/core/InputBase'
 import Appbar from '../Common/Appbar'
 import Link from '@material-ui/core/Link'
-// import useRegisApi from '../../hooks/useRegisApi'
+import useRegisApi from '../../hooks/useRegister'
 
 const contentTop = '15vh'
 const useStyles = makeStyles(theme => ({
@@ -42,7 +42,7 @@ const useStyles = makeStyles(theme => ({
   input: {
     borderStyle: 'solid',
     borderWidth: 1,
-    borderColor: theme.palette.primary.gray,
+    borderColor: theme.palette.border,
     padding: `0 ${ theme.spacing.unit*2 }px`,
     width: '100%'
   },
@@ -79,120 +79,120 @@ const Register = props => {
   const handleNameChange = event => { setName(event.target.value) }
   const handlePhoneChange = event => { setPhone(event.target.value) }
   const handleAddressChange = event => { setAddress(event.target.value) }
-  // const [{status, response}, makeRequest] = useRegisApi(
-  //   { account, password, verifiedPassword, email, name, phone, address })
+  const [{status, response}, makeRequest] = useRegisApi(
+    { account, password, verifiedPassword, email, name, phone, address })
 
   return (
     <div className={classes.root}>
       <Appbar/>
-      <Box display="flex" height={contentTop} />
+      <Box display='flex' height={contentTop} />
       <Paper className={classes.paper}>
-        <Box className={classes.title} display="flex" justifyContent="center" alignItems="center" width={1}>
+        <Box className={classes.title} display='flex' justifyContent='center' alignItems='center' width={1}>
           <Typography>加入會員</Typography>
         </Box>
-        <Box className={classes.content} display="flex" justifyContent="center" alignItems="center" flexDirection="column">
-          <Box display="flex">
-            <Box display="flex">
-              <Typography color="secondary">*</Typography>
+        <Box className={classes.content} display='flex' justifyContent='center' alignItems='center' flexDirection='column'>
+          <Box display='flex'>
+            <Box display='flex'>
+              <Typography color='secondary'>*</Typography>
             </Box>
-            <Box display="flex" mx={1}>
+            <Box display='flex' mx={1}>
               <Typography>帳號：</Typography>
             </Box>
-            <Box display="flex" mx={1}>
+            <Box display='flex' mx={1}>
               <InputBase className={classes.input} onChange={handleAccountChange} />
             </Box>
-            <Box display="flex" >
+            <Box display='flex' >
               <Typography>
                 已有帳號?現在
-                <Href to="/login">
-                  <Link className={classes.login} component="button" variant="inherit" >登入</Link>
+                <Href to='/login'>
+                  <Link className={classes.login} component='button' variant='inherit' >登入</Link>
                 </Href>
               </Typography>
             </Box>
           </Box>
 
-          <Box display="flex" mt={3}>
-            <Box display="flex">
-              <Typography color="secondary">*</Typography>
+          <Box display='flex' mt={3}>
+            <Box display='flex'>
+              <Typography color='secondary'>*</Typography>
             </Box>
-            <Box display="flex" mx={1}>
+            <Box display='flex' mx={1}>
               <Typography>密碼：</Typography>
             </Box>
-            <Box display="flex" mx={1}>
-              <InputBase className={classes.input} type="password" onChange={handlePasswordChange} />
+            <Box display='flex' mx={1}>
+              <InputBase className={classes.input} type='password' onChange={handlePasswordChange} />
             </Box>
-            <Box display="flex" mx={11.5}/>
+            <Box display='flex' mx={11.5}/>
           </Box>
 
-          <Box display="flex" mt={3}>
-            <Box display="flex">
-              <Typography color="secondary">*</Typography>
+          <Box display='flex' mt={3}>
+            <Box display='flex'>
+              <Typography color='secondary'>*</Typography>
             </Box>
-            <Box display="flex" mx={1}>
+            <Box display='flex' mx={1}>
               <Typography>確認密碼：</Typography>
             </Box>
-            <Box display="flex" mx={1}>
-              <InputBase className={classes.input} type="password" onChange={handleVerifiedPasswordChange} />
+            <Box display='flex' mx={1}>
+              <InputBase className={classes.input} type='password' onChange={handleVerifiedPasswordChange} />
             </Box>
-            <Box display="flex" mx={14}/>
+            <Box display='flex' mx={14}/>
           </Box>
 
-          <Box display="flex" mt={3}>
-            <Box display="flex">
-              <Typography color="secondary">*</Typography>
+          <Box display='flex' mt={3}>
+            <Box display='flex'>
+              <Typography color='secondary'>*</Typography>
             </Box>
-            <Box display="flex" mx={1}>
+            <Box display='flex' mx={1}>
               <Typography>Email：</Typography>
             </Box>
-            <Box display="flex" mx={1}>
-              <InputBase className={classes.input} type="email" onChange={handleEmailChange} />
+            <Box display='flex' mx={1}>
+              <InputBase className={classes.input} type='email' onChange={handleEmailChange} />
             </Box>
-            <Box display="flex" mx={12.5}/>
+            <Box display='flex' mx={12.5}/>
           </Box>
 
-          <Box display="flex" mt={3}>
-            <Box display="flex">
-              <Typography color="secondary">*</Typography>
+          <Box display='flex' mt={3}>
+            <Box display='flex'>
+              <Typography color='secondary'>*</Typography>
             </Box>
-            <Box display="flex" mx={1}>
+            <Box display='flex' mx={1}>
               <Typography>真實姓名：</Typography>
             </Box>
-            <Box display="flex" mx={1}>
+            <Box display='flex' mx={1}>
               <InputBase className={classes.input} onChange={handleNameChange}/>
             </Box>
-            <Box display="flex" mx={14.5}/>
+            <Box display='flex' mx={14.5}/>
           </Box>
 
-          <Box display="flex" mt={3} flexDirection="column">
-            <Box display="flex">
-              <Box display="flex">
-                <Typography color="secondary">*</Typography>
+          <Box display='flex' mt={3} flexDirection='column'>
+            <Box display='flex'>
+              <Box display='flex'>
+                <Typography color='secondary'>*</Typography>
               </Box>
-              <Box display="flex" mx={1}>
+              <Box display='flex' mx={1}>
                 <Typography>連絡電話：</Typography>
               </Box>
-              <Box display="flex" mx={1}>
-                <InputBase className={classes.input} style={{width:"100%"}} onChange={handlePhoneChange} inputProps={{maxLength: 10}}/>
+              <Box display='flex' mx={1}>
+                <InputBase className={classes.input} type='tel' pattern='/^+(09)[0-9]{8}/' style={{width:'100%'}} onChange={handlePhoneChange} inputProps={{maxLength: 10}}/>
               </Box>
-              <Box display="flex" mx={14.8}/>
+              <Box display='flex' mx={14.8}/>
             </Box>
           </Box>
 
-          <Box display="flex" mt={3}>
-            <Box display="flex">
-              <Typography color="secondary">*</Typography>
+          <Box display='flex' mt={3}>
+            <Box display='flex'>
+              <Typography color='secondary'>*</Typography>
             </Box>
-            <Box display="flex" mx={1}>
+            <Box display='flex' mx={1}>
               <Typography>聯絡地址：</Typography>
             </Box>
-            <Box display="flex" mx={1}>
+            <Box display='flex' mx={1}>
               <InputBase className={classes.input} onChange={handleAddressChange}/>
             </Box>
             <Box mx={15}/>
           </Box>
 
-          <Box display="flex" mt={4}>
-            <Button className={classes.ok} style={{color: 'white', background: '#4fc3f7'}} >確認送出</Button>
+          <Box display='flex' mt={4}>
+            <Button className={classes.ok} style={{color: 'white', background: '#4fc3f7'}} onClick={makeRequest} >確認送出</Button>
           </Box>
         </Box>
       </Paper>
