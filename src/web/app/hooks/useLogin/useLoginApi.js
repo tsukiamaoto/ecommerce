@@ -11,7 +11,7 @@ const useLoginApi = payload => {
   const [ state, dispatch ] = useReducer(reducer, initialState)
   const makeRequest = async() => {
     dispatch(fetching())
-    const url = '/login'
+    const url = '/account'
     const response = await fetch({
       url,
       method: 'POST',
@@ -19,9 +19,9 @@ const useLoginApi = payload => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        payload: [
+        payload: {
           ...payload
-        ]
+        }
       })
     })
       .catch(e => {

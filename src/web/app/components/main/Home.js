@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/styles'
 import Box from '@material-ui/core/Box'
 import Typography from '@material-ui/core/Typography'
@@ -10,6 +10,7 @@ import Appbar from '../Common/Appbar'
 import Filter from './Filter'
 import Product from './product'
 import _ from 'lodash'
+import useProductApiRequest from '../../hooks/useProduct';
 
 const json = require('../../../../web/data.json')
 const products = json
@@ -60,7 +61,7 @@ const Home = props => {
     { value:'reviewHightToLow', label:'評價:高到低' },
     { value:'priceLowToHigh', label:'價格:低到高' },
     { value:'priceHighToLow', label:'價格:高到低' }]
-    
+  const [{status, response}, makeRequest] = useProductApiRequest('get')
 
   const handleSortChanged = event => {
     setSort( event.target.value)
@@ -69,6 +70,9 @@ const Home = props => {
     setOffset(offset)
   }
 
+  useEffect( () => {
+    // makeRequest();
+  })
 
   return (
     <div className={classes.root}>

@@ -62,7 +62,7 @@ const Login = props =>{
 
   const handleAccountChange = event => { setAccount(event.target.value) }
   const handlePasswordChange = event => { setPassword(event.target.value) }
-  const [{staus, response}, makeRequest] = useLoginApi({ account, password })
+  const [{status, response}, makeRequest] = useLoginApi({ account, password })
 
   return (
     <div className={classes.root}>
