@@ -29,6 +29,10 @@ const useStyles = makeStyles(theme => ({
   },
   seller: {
     marginTop: 20
+  },
+  title: {
+    height: 60,
+    maxHeight: 60
   }
 
 }))
@@ -36,15 +40,15 @@ const useStyles = makeStyles(theme => ({
 const Product = props => {
   const classes = useStyles()
   const { product } = props
-  const { name, image, seller, price, review } = product
+  const { title, imagePath, seller, price, review } = product
   return (
     <div>
       <Card className={classes.card} raised>
         <CardActionArea className={classes.infolink}>
-          <Link className={classes.link} to={`/product/${product.id}`}>
+          <Link className={classes.link} to={`/product/${product._id}`}>
             <img
               classNmae={classes.media}
-              src={require('../../../assets/pic1.jpg')}
+              src={imagePath}
               alt='pic'
               width= '300'
               height='240'
@@ -52,7 +56,9 @@ const Product = props => {
           </Link>
         </CardActionArea>
         <CardContent>
-          <Typography>{name}</Typography>
+          <Typography className={classes.title}>
+            {(title.length < 20)? title : `${title.slice(0,20)}...`}
+          </Typography>
           <Button className={classes.seller}>{seller}</Button>
           <Typography className={classes.dollar}>${price}</Typography>
           <Rating max={5} value={review}/>

@@ -13,9 +13,8 @@ import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 import Divider from '@material-ui/core/Divider'
 import Button from '@material-ui/core/Button'
-import { FiTruck, FiShoppingBag, FiPackage, FiShoppingCart } from 'react-icons/fi'
-const json = require('../../../../web/data.json')
-const products = json
+import { FetchOneProduct } from '../../hooks/useProduct/useProductApiRequest'
+import { FiDollarSign, FiShoppingBag, FiPackage, FiShoppingCart } from 'react-icons/fi'
 
 const contentTop = 100
 const useStyles = makeStyles(theme => ({
@@ -76,8 +75,12 @@ const Product = props => {
   const classes = useStyles()
   const [productTypes, setproductTypes] = useState()
   const [numbers, setNumbers] = useState(1)
-  const product = products.find(product => product.id === props.match.params.productId)
+  const [{status, response: product}, makeRequest] = FetchOneProduct(props)
 
+  useEffect(()=>{
+    makeRequest()
+    // (status === 'SUCCESS')? setproductTypes(response.product.type): setproductTypes('')
+  },[])
   const handleTypeChanged = event => {
     setproductTypes(event.target.value)
   }
@@ -97,93 +100,96 @@ const Product = props => {
 
   return(
     <div>
-      <Appbar/>
-      <Box height={contentTop}/>
-      <Box display='flex' justifyContent='center'>
-        <Paper className={classes.container}>
-          <Box display='flex' width='100%'>
-            <Box display='flex' width='50%' m={4}>
-              <img
-                src={require('../../../assets/pic1.jpg')}
-                alt='pic'
-                width= '100%'
-                minHeight='60%'
-              />
-            </Box>
-            <Box display='flex' m={4} width='50%'flexDirection='column'>
-              <Typography variant='h5'>{`產品名稱: ${product.name}`}</Typography>
-              <Typography variant='subtitle1' className={classes.brief}>{`商品介紹: ${product.seller}`}</Typography>
-              <FormControl className={classes.types}>
-                <InputLabel htmlFor="select-multiple-checkbox">{`顏色`}</InputLabel>
-                <Select
-                  value={productTypes}
-                  onChange={handleTypeChanged}
-                  input={<Input/>}
-                  renderValue={selected => selected}
-                  MenuProps={MenuProps}
-                >
-                  {product.types.map(type => (
-                    <MenuItem key={type} value={type}>
-                      <Checkbox color='primary' checked={productTypes === type} />
-                      <ListItemText primary={type} />
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              <Divider className={classes.divider} />
-
-              <Box display='flex' mt={5} flexDirection>
-                <FiTruck className={classes.icons}/>
-                <Box mx='10%'><Typography>{`運費`}</Typography></Box>
-                <Typography className={classes.dollars}>{`$ ${product.price}`}</Typography>
-              </Box>
-
-              <Box display='flex' mt={5} flexDirection>
-                <FiShoppingBag className={classes.icons}/>
-                <Box mx='10%'>
-                  <Typography>{`數量`}</Typography>
+      {(status === 'SUCCESS')?
+        <div>
+          <Appbar/>
+          <Box height={contentTop}/>
+          <Box display='flex' justifyContent='center'>
+            <Paper className={classes.container}>
+              <Box display='flex' width='100%'>
+                <Box display='flex' width='50%' m={4}>
+                  <img
+                    src={product.imagePath}
+                    alt='pic'
+                    width= '100%'
+                    minHeight='60%'
+                  />
                 </Box>
-                <Button variant='contained' size='medium' color='primary' className={classes.plusButton} onClick={handleMinus}>
-                  -
-                </Button>
-                <Box mx='5%'>
-                  <Typography>{numbers}</Typography>
-                </Box>
-                <Button variant='contained' size='medium' color='primary' className={classes.minusButton} onClick={handlePlus}>
-                  +
-                </Button>
-              </Box>
+                <Box display='flex' m={4} width='50%'flexDirection='column'>
+                  <Typography variant='h5'>{`產品名稱: ${product.title}`}</Typography>
+                  <Typography variant='subtitle1' className={classes.brief}>{`商品介紹: ${product.seller}`}</Typography>
+                  <FormControl className={classes.types}>
+                    {/* <InputLabel htmlFor="select-multiple-checkbox">{`顏色`}</InputLabel>
+                    <Select
+                      value={response.product.type}
+                      onChange={handleTypeChanged}
+                      input={<Input/>}
+                      renderValue={selected => selected}
+                      MenuProps={MenuProps}
+                    >
+                      {response.product.type.map(type => (
+                        <MenuItem key={type} value={type}>
+                          <Checkbox color='primary' checked={response.product.type === type} />
+                          <ListItemText primary={type} />
+                        </MenuItem>
+                      ))}
+                    </Select> */}
+                  </FormControl>
+                  <Divider className={classes.divider} />
 
-              <Box display='flex' mt={5} flexDirection>
-                <FiPackage className={classes.icons}/>
-                <Box mx='10%'>
-                  <Typography>{`庫存`}</Typography>
-                </Box>
-                <Typography>{[product.quantity]}</Typography>
-              </Box>
-              <Divider className={classes.divider} />
+                  <Box display='flex' mt={5} flexDirection>
+                    <FiDollarSign className={classes.icons}/>
+                    <Box mx='10%'><Typography>{`價格`}</Typography></Box>
+                    <Typography className={classes.dollars}>{`$ ${product.price}`}</Typography>
+                  </Box>
 
-              <Box display='flex' mt={5} flexDirection>
-                <Button variant='contained' className={classes.purchaseButton} color='primary'>
-                  <Box mr={3}><FiShoppingCart/></Box>
-                  <Typography>加入購物車</Typography>
-                </Button>
-                <Box mx={5}>
-                  <Button variant='contained' className={classes.purchaseButton} color='primary'>
-                    <Typography>直接購買</Typography>
-                  </Button>
+                  <Box display='flex' mt={5} flexDirection>
+                    <FiShoppingBag className={classes.icons}/>
+                    <Box mx='10%'>
+                      <Typography>{`數量`}</Typography>
+                    </Box>
+                    <Button variant='contained' size='medium' color='primary' className={classes.plusButton} onClick={handleMinus}>
+                      -
+                    </Button>
+                    <Box mx='5%'>
+                      <Typography>{numbers}</Typography>
+                    </Box>
+                    <Button variant='contained' size='medium' color='primary' className={classes.minusButton} onClick={handlePlus}>
+                      +
+                    </Button>
+                  </Box>
+
+                  <Box display='flex' mt={5} flexDirection>
+                    <FiPackage className={classes.icons}/>
+                    <Box mx='10%'>
+                      <Typography>{`庫存`}</Typography>
+                    </Box>
+                    <Typography>{[product.quantity]}</Typography>
+                  </Box>
+                  <Divider className={classes.divider} />
+
+                  <Box display='flex' mt={5} flexDirection>
+                    <Button variant='contained' className={classes.purchaseButton} color='primary'>
+                      <Box mr={3}><FiShoppingCart/></Box>
+                      <Typography>加入購物車</Typography>
+                    </Button>
+                    <Box mx={5}>
+                      <Button variant='contained' className={classes.purchaseButton} color='primary'>
+                        <Typography>直接購買</Typography>
+                      </Button>
+                    </Box>
+                  </Box>
                 </Box>
               </Box>
-            </Box>
+              <Box m={4}><Divider className={classes.divider} /></Box>
+              <Box display='flex' m={4} flexDirection>
+                <Typography>
+                  商品詳述:{product.description}
+                </Typography>
+              </Box>
+            </Paper>
           </Box>
-          <Box m={4}><Divider className={classes.divider} /></Box>
-          <Box display='flex' m={4} flexDirection>
-            <Typography>
-              商品詳述:{`123456`}
-            </Typography>
-          </Box>
-        </Paper>
-      </Box>
+        </div> : null }
     </div>
   )
 }

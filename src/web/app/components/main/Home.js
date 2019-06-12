@@ -10,10 +10,7 @@ import Appbar from '../Common/Appbar'
 import Filter from './Filter'
 import Product from './product'
 import _ from 'lodash'
-import useProductApiRequest from '../../hooks/useProduct';
-
-const json = require('../../../../web/data.json')
-const products = json
+import { FetchAllProducts } from '../../hooks/useProduct/useProductApiRequest';
 
 const contentTop = 100
 const useStyles = makeStyles(theme => ({
@@ -61,7 +58,7 @@ const Home = props => {
     { value:'reviewHightToLow', label:'評價:高到低' },
     { value:'priceLowToHigh', label:'價格:低到高' },
     { value:'priceHighToLow', label:'價格:高到低' }]
-  const [{status, response}, makeRequest] = useProductApiRequest('get')
+  const [{status, response: products}, makeRequest, dispatch] = FetchAllProducts()
 
   const handleSortChanged = event => {
     setSort( event.target.value)
@@ -71,12 +68,12 @@ const Home = props => {
   }
 
   useEffect( () => {
-    // makeRequest();
-  })
+    makeRequest()
 
+  },[])
   return (
     <div className={classes.root}>
-      <Appbar products={products}/>
+      <Appbar products={products} dispatch={dispatch}/>
       <Box display='flex' flexDirection='column'>
         <Box height={contentTop}/>
         <Box display='flex' flexDirection>
@@ -112,14 +109,14 @@ const Home = props => {
             </Paper>
             <Box display='flex'>
               <Grid className={classes.productList} container >
-                { products.map((product) => (
+                { (status === 'SUCCESS')? products.map((product) => (
                   <Grid display='flex' flexDirection>
                     <Box display='flex' mt={4} mr={4}>
                       <Product product={product}/>
                     </Box>
                   </Grid>
                   )
-                )}
+                ): null}
               </Grid>
             </Box>
             <Box id='pagination' display='flex'  justifyContent="center" mt={3}>
