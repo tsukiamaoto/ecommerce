@@ -53,6 +53,7 @@ const useStyles = makeStyles(theme => ({
 
 const Appbar = props => {
   const classes = useStyles()
+  console.log(props.dispatch)
   const [anchorEl, setAnchorEl] = useState(0)
   const [search, setSearch] = useState('')
   const open = Boolean(anchorEl)
@@ -90,7 +91,7 @@ const Appbar = props => {
         <Box display='flex' flexGrow={1} mx={2} m={1}>
           <Paper className={classes.search}>
             <InputBase className={classes.input} placeholder='Search...' onChange={handleSearchChanged}/>
-            <IconButton className={classes.iconSearch} 
+            <IconButton className={classes.iconSearch}
               onClick={() => dispatch({type: 'searchProduct', searchString: search})}>
               <FiSearch icon='search' />
             </IconButton>

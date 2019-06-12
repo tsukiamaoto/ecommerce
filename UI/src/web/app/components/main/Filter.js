@@ -48,11 +48,11 @@ const Filter = props => {
   const [maxPrice, setMaxPrice] = useState(0)
   const handleMinPriceChanged = event => { setMinPrice(event.target.value) }
   const handkeMaxPriceChanged = event => { setMaxPrice(event.target.value) }
-  
+  console.log(props.products)
   const [products , dispatch] = useReducer((state, action) => {
     switch(action.type){
       case 'priceFilter':
-        return {products: state.products.filter(({ name, image, seller, price, review }) =>  
+        return {products: state.products.filter(({ name, image, seller, price, review }) =>
           price >= minPrice && price <= maxPrice) };
       default:
         return state;
